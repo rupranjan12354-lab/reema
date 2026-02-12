@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sales Check-in Form</title>
+</head>
+<body>
+
+<h2>Sales Entry Form</h2>
+
+<form onsubmit="sendToWhatsApp(event)">
+  <input type="text" id="name" placeholder="Enter Name" required><br><br>
+  <input type="email" id="email" placeholder="Enter Email" required><br><br>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+function sendToWhatsApp(e) {
+  e.preventDefault();
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+
+      var message = 
+        "📌 New Sales Entry%0A%0A" +
+        "👤 Name: " + name + "%0A" +
+        "📧 Email: " + email + "%0A%0A" +
+        "📍 Location:%0A" +
+        "https://www.google.com/maps?q=" + lat + "," + lng;
+
+      // Apna WhatsApp number yaha daale (country code ke saath)
+      var phoneNumber = "919XXXXXXXXX";
+
+      var whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + message;
+
+      window.open(whatsappURL, "_blank");
+
+    }, function() {
+      alert("Location permission required!");
+    });
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+</script>
+
+</body>
+</html>
